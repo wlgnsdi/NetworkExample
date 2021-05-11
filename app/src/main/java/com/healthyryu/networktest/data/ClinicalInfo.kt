@@ -1,4 +1,4 @@
-package com.healthyryu.networktest
+package com.healthyryu.networktest.data
 
 data class ClinicalInfo(
     val name: String,

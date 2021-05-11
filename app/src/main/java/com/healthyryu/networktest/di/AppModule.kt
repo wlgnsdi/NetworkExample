@@ -1,9 +1,9 @@
-package com.healthyryu.networktest
+package com.healthyryu.networktest.di
 
-import android.util.Log
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.healthyryu.networktest.network.ApiService
+import com.healthyryu.networktest.repo.ApiRepository
+import com.healthyryu.networktest.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,34 +20,29 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private val interceptor: Interceptor = Interceptor { chain ->
-        val response: Response = chain.proceed(chain.request())
-        Log.d("NetworkModule", ">> " + response.request.url.toString())
-        response
-    }
-
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson): Retrofit {
+    fun provideRetrofit(): Retrofit {
+        val interceptor: Interceptor = Interceptor { chain ->
+            val response: Response = chain.proceed(chain.request())
+            response
+        }
+
         val httpClient = OkHttpClient.Builder().apply {
             addNetworkInterceptor(StethoInterceptor())
             addInterceptor(interceptor)
         }.build()
 
         return Retrofit.Builder()
-            .baseUrl("http://api2.inhandplus.com/admin/")
+            .baseUrl(BASE_URL)
             .client(httpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     @Provides
-    fun provideGson(): Gson {
-        return GsonBuilder().create()
-    }
-
-    @Provides
+    @Singleton
     fun provideApiService(
         retrofit: Retrofit
     ): ApiService {
@@ -55,6 +50,7 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideApiRepository(
         apiService: ApiService
     ): ApiRepository {

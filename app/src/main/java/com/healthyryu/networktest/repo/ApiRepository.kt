@@ -1,5 +1,6 @@
-package com.healthyryu.networktest
+package com.healthyryu.networktest.repo
 
+import com.healthyryu.networktest.network.ApiService
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(
