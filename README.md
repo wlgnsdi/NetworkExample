@@ -12,6 +12,5 @@
 - Rx
 
 ## 3. 참고
-- [network_security_config](https://github.com/wlgnsdi/NetworkExample/blob/master/app/src/main/res/xml/network_security_config.xml) (경로 res -> xml)
-<br/>
+- [network_security_config](https://github.com/wlgnsdi/NetworkExample/blob/master/app/src/main/res/xml/network_security_config.xml) (경로 res -> xml)<br/>
 : 안드로이드 9.0 부터는 https를 사용하도록 강제 하기 때문에 http를 사용하는 URL 도 허용하기 위해서 추가 - [링크 참고](https://gun0912.tistory.com/80#recentComments)
